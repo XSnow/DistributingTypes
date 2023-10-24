@@ -118,10 +118,6 @@ Lemma splu_decrease_size: forall A B C,
 Proof with (pose proof (size_typ_min); simpl in *; try lia).
   introv H.
   induction H; simpl in *; eauto...
-  pick fresh X. forwards* (?&?): H0.
-  rewrite 2 size_typ_open_typ_wrt_typ_var in H3.
-  rewrite 2 size_typ_open_typ_wrt_typ_var in H2.
-  eauto...
 Qed.
 
 Lemma spli_decrease_size: forall A B C,
@@ -129,11 +125,6 @@ Lemma spli_decrease_size: forall A B C,
 Proof with (pose proof (size_typ_min); simpl in *; try lia).
   introv H.
   induction H; simpl in *; eauto...
-  - forwards (?&?): splu_decrease_size H0...
-  - pick fresh X. forwards* (?&?): H0.
-    rewrite 2 size_typ_open_typ_wrt_typ_var in H3.
-    rewrite 2 size_typ_open_typ_wrt_typ_var in H2.
-    eauto...
 Qed.
 
 Ltac spl_size :=
@@ -190,7 +181,6 @@ Lemma spli_ord_false : forall A B C,
 Proof.
   introv Spl Ord. gen B C.
   induction Ord; intros; inverts* Spl.
-  eauto using splu_ord_false. solve_false.
 Qed.
 
 Ltac find_contradiction_on_split :=
@@ -242,7 +232,7 @@ Lemma ordu_lc : forall A, ordu A -> lc_typ A.
 Proof. introv H. induction~ H. Qed.
 
 Lemma ordi_lc : forall A, ordi A -> lc_typ A.
-Proof. introv H. induction~ H. eauto using ordu_lc. Qed.
+Proof. introv H. induction~ H. Qed.
 
 Lemma orduFty_lc : forall Fty, UnionOrdinaryFty Fty -> lc_Fty Fty.
 Proof with eauto using ordu_lc. introv H. induction H... Qed.
@@ -381,7 +371,9 @@ Lemma rename_ordu : forall A X Y,
 Proof with (simpl in *; eauto).
   introv Ord. gen X Y. induction Ord; intros...
   - destruct (X==X0)...
-  - applys~ (OrdU_forall (L \u {{X}})).
+  - repeat econstructor. eauto with lngen.
+
+    applys~ OrdU_forall. (L \u {{X}})).
     introv Fr. forwards* Ord: H0 X0 X Y.
     rewrite typsubst_typ_open_typ_wrt_typ in Ord...
     case_eq (@eq_dec typevar EqDec_eq_of_X X0 X); intuition...
@@ -1332,50 +1324,19 @@ Qed.
 Lemma DSub_CovDistIUnionL : forall (A C B:typ),
     lc_typ A -> lc_typ B -> lc_typ C ->
     declarative_subtyping (t_and  (t_or A C) (t_or B C) ) (t_or (t_and A B) C).
-Proof.
-  introv Lc1 Lc2 Lc3.
-  applys DSub_Trans.
-  applys* DSub_CovDistUInterL.
-  applys DSub_UnionL.
-  - applys DSub_Trans (t_and (t_or B C) A).
-    + applys~ DSub_InterR.
-    + applys DSub_Trans.
-      applys~ DSub_CovDistUInterL.
-      applys~ DSub_UnionL.
-  - applys~ DSub_UnionRR.
-Qed.
+Abort.
 
 Lemma DSub_CovDistIUnionR : forall (C A B:typ),
     lc_typ C -> lc_typ A -> lc_typ B ->
     declarative_subtyping (t_and  (t_or C A) (t_or C B) ) (t_or C (t_and A B) ).
-Proof.
-  introv Lc1 Lc2 Lc3.
-  applys DSub_Trans.
-  applys* DSub_CovDistUInterL.
-  applys DSub_UnionL.
-  - applys~ DSub_UnionRL.
-  - applys DSub_Trans (t_and (t_or C B) A).
-    + applys~ DSub_InterR.
-    + applys DSub_Trans.
-      applys~ DSub_CovDistUInterL.
-      applys~ DSub_UnionL.
-Qed.
+Abort.
 
 Lemma DSub_CovDistUInterR : forall (C A B:typ),
     lc_typ A -> lc_typ C -> lc_typ B ->
-     declarative_subtyping (t_and C (t_or A B) ) (t_or  (t_and C A) (t_and C B) ).
-Proof.
-  introv Lc1 Lc2 Lc3.
-  applys DSub_Trans (t_and (t_or A B) C).
-  - applys~ DSub_InterR.
-  - applys DSub_Trans.
-    applys~ DSub_CovDistUInterL.
-    applys DSub_UnionL.
-    + applys~ DSub_UnionRL.
-    + applys~ DSub_UnionRR.
-Qed.
+    declarative_subtyping (t_and C (t_or A B) ) (t_or  (t_and C A) (t_and C B) ).
+Abort.
 
-#[export] Hint Resolve DSub_CovInterL DSub_CovInterR DSub_CovUnionL DSub_CovUnionR DSub_CovDistIUnionL DSub_CovDistIUnionR DSub_CovDistUInterR : core.
+#[export] Hint Resolve DSub_CovInterL DSub_CovInterR DSub_CovUnionL DSub_CovUnionR : core.
 
 Lemma dsub_splu: forall A B C,
     splu A B C -> declarative_subtyping B A /\ declarative_subtyping C A.

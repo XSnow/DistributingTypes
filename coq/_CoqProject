@@ -1,9 +1,5 @@
 -R . Top
-Definitions.v
-DistAnd.v
-DistSubtyping.v
-Duotyping.v
-Equivalence.v
 LibTactics.v
-Subtyping.v
-TypeSize.v
+Definitions.v
+LN_Lemmas.v
+DistSubtyping.v

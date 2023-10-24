@@ -127,26 +127,26 @@ DSub :: '' ::=
   -------------------- :: FunCon
   A1 -> B <: A2 -> B
 
-  ------------------------------------- :: CovDistIIn
-  (In l A) & (In l B) <: In l (A & B)
+%  ------------------------------------- :: CovDistIIn
+%  (In l A) & (In l B) <: In l (A & B)
 
-  ------------------------------------- :: CovDistIArr
-  (C -> A) & (C -> B) <: (C -> A & B)
+%  ------------------------------------- :: CovDistIArr
+%  (C -> A) & (C -> B) <: (C -> A & B)
 
-  ------------------------------------------------------ :: CovDistIAll
-  (forall X. A) & (forall X. B) <: (forall X. A & B)  
+%  ------------------------------------------------------ :: CovDistIAll
+%  (forall X. A) & (forall X. B) <: (forall X. A & B)  
 
-  ------------------------------------- :: CovDistUIn
-  In l (A | B) <: (In l A) | (In l B)
+%  ------------------------------------- :: CovDistUIn
+%  In l (A | B) <: (In l A) | (In l B)
 
-  ------------------------------------------------------ :: CovDistUAll
-  forall X. (A | B) <: (forall X. A) | (forall X. B)
+%  ------------------------------------------------------ :: CovDistUAll
+%  forall X. (A | B) <: (forall X. A) | (forall X. B)
 
-  ------------------------------------- :: CovDistUInterL
-  (A | B) & C <: (A & C) | (B & C)
+%  ------------------------------------- :: CovDistUInterL
+%  (A | B) & C <: (A & C) | (B & C)
 
-  ------------------------------------------------- :: FunDistI
-  (A1 -> B) & (A2 -> B) <: (A1 | A2) -> B 
+%  ------------------------------------------------- :: FunDistI
+%  (A1 -> B) & (A2 -> B) <: (A1 | A2) -> B 
 
   A1 <: B
   ----------------- :: InterLL
@@ -337,16 +337,16 @@ Ordinary :: '' ::=
   ---------------- :: arrow
   ordinaryU A -> B
 
-  ordinaryU A
-  ordinaryU B
+  %ordinaryU A
+  %ordinaryU B
   --------------- :: and
   ordinaryU A & B
 
-  ordinaryU A
+  %ordinaryU A
   ---------------- :: rcd
   ordinaryU In l A
 
-  ordinaryU A
+  %ordinaryU A
   ---------------------- :: forall
   ordinaryU forall X . A
 
@@ -363,21 +363,21 @@ Ordinary :: '' ::=
   --------------- :: bot
   ordinaryI Empty
 
-  ordinaryU A
-  ordinaryI B
+  %ordinaryU A
+  %ordinaryI B
   ---------------- :: arrow
   ordinaryI A -> B
 
-  ordinaryI A
-  ordinaryI B
+  %ordinaryI A
+  %ordinaryI B
   --------------- :: or
   ordinaryI A | B
 
-  ordinaryI A
+  %ordinaryI A
   ---------------- :: rcd
   ordinaryI In l A
 
-  ordinaryI A
+  %ordinaryI A
   ---------------------- :: forall
   ordinaryI forall X . A
 
@@ -391,31 +391,31 @@ Split :: '' ::=
   -------------------- :: and
   splitI A & B = A & B
 
-  splitI A = A1 & A2
-  ---------------------------------- :: orl
-  splitI A | B = A1 | B & A2 | B
+  %splitI A = A1 & A2
+  %---------------------------------- :: orl
+  %splitI A | B = A1 | B & A2 | B
 
-  ordinaryI A
-  splitI B = B1 & B2
-  ---------------------------------- :: orr
-  splitI A | B = A | B1 & A | B2
+  %ordinaryI A
+  %splitI B = B1 & B2
+  %---------------------------------- :: orr
+  %splitI A | B = A | B1 & A | B2
 
-  splitI B = B1 & B2
-  --------------------------------- :: arrow
-  splitI A -> B = A -> B1 & A -> B2
+  %splitI B = B1 & B2
+  %--------------------------------- :: arrow
+  %splitI A -> B = A -> B1 & A -> B2
 
-  ordinaryI B
-  splitU A = A1 | A2
-  --------------------------------- :: arrowUnion
-  splitI A -> B = A1 -> B & A2 -> B
+  %ordinaryI B
+  %splitU A = A1 | A2
+  %--------------------------------- :: arrowUnion
+  %splitI A -> B = A1 -> B & A2 -> B
 
-  splitI A = A1 & A2
-  --------------------------------------------------- :: forall
-  splitI forall X . A = forall X . A1 & forall X . A2
+  %splitI A = A1 & A2
+  %--------------------------------------------------- :: forall
+  %splitI forall X . A = forall X . A1 & forall X . A2
 
-  splitI A = A1 & A2 
-  --------------------------------- :: in
-  splitI In l A = In l A1 & In l A2
+  %splitI A = A1 & A2 
+  %--------------------------------- :: in
+  %splitI In l A = In l A1 & In l A2
 
 
   defn splitU A = B1 | B2 :: :: splu :: SpU_
@@ -424,22 +424,22 @@ Split :: '' ::=
   -------------------- :: or
   splitU A | B = A | B
 
-  splitU A = A1 | A2
-  ------------------------------ :: andl
-  splitU A & B = A1 & B | A2 & B
+  %splitU A = A1 | A2
+  %------------------------------ :: andl
+  %splitU A & B = A1 & B | A2 & B
 
-  ordinaryU A
-  splitU B = B1 | B2
-  ------------------------------ :: andr
-  splitU A & B = A & B1 | A & B2
+  %ordinaryU A
+  %splitU B = B1 | B2
+  %------------------------------ :: andr
+  %splitU A & B = A & B1 | A & B2
 
-  splitU A = A1 | A2
-  --------------------------------------------------- :: forall
-  splitU forall X . A = forall X . A1 | forall X . A2
+  %splitU A = A1 | A2
+  %--------------------------------------------------- :: forall
+  %splitU forall X . A = forall X . A1 | forall X . A2
 
- splitU A = A1 | A2 
- --------------------------------- :: in
- splitU In l A = In l A1 | In l A2
+  %splitU A = A1 | A2 
+  %--------------------------------- :: in
+  %splitU In l A = In l A1 | In l A2
 
 
 defns
